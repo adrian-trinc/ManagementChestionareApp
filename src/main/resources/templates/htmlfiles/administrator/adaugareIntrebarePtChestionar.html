@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Adaugare intrebare</title>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    </head>
+    <body>
+        <div class="container mt-5">
+            <a href="http://localhost:8081" style="display: block;margin-bottom: 15px">Pagina principala</a>
+            <a href="http://localhost:8081/logout" style="display: block;margin-bottom: 15px">Logout</a>
+            <h2>Intrebare noua</h2>
+            <form method="POST" th:action="@{http://localhost:8081/intrebare}">
+                <label for="continut">Continut:</label>
+                <input type="text" id="continut" name="continut"><br>
+                <label for="numarDePuncte">Numar de puncte:</label>
+                <input type="text" id="numarDePuncte" name="numarDePuncte"><br>
+                <label for="chestionarId" class="mdb-main-label">Chestionar:</label>
+                <select id="chestionarId" name="chestionarId" class="mdb-select md-form colorful-select dropdown-primary">
+                    <th:block th:each="chestionar,iter : ${listaDeChestionareAdministratorCurent}">
+                        <option
+                                th:value="${chestionar.chestionarId}"
+                                th:text="'ID chestionar: ' + ${chestionar.chestionarId} + ' | ' + ${chestionar.descriere}">
+                        </option>
+                    </th:block>
+                </select><br>
+                <button type="submit" class="btn btn-primary">Adaugare</button>
+            </form>
+            <div th:if="${succes != null}" class="alert alert-success" role="alert">
+                Adaugare reusita!
+            </div>
+        </div>
+    </body>
+</html>

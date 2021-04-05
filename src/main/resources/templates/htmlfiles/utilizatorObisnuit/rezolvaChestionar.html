@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Rezolva chestionar</title>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    </head>
+    <body>
+        <div class="container mt-5">
+            <a href="http://localhost:8081" style="font-weight: bold;display: block;margin-bottom: 15px">Pagina principala</a>
+            <a href="http://localhost:8081/logout" style="font-weight: bold;display: block;margin-bottom: 15px">Logout</a>
+            <hr style="height:1px;border:none;color:#333;background-color:#333;">
+            <h2 style="font-weight: bold;" th:text="'Nume chestionar: ' + ${chestionar.descriere}"></h2>
+            <h4 style="font-weight: bold;" th:text="'Numele de utilizator al autorului: ' + ${chestionar.utilizatorCreator.numeDeUtilizator}"></h4>
+            <form th:action="@{http://localhost:8081/rezolva-chestionar/{chestionarIdPath}(chestionarIdPath=${chestionar.chestionarId})}"
+                  th:method="POST">
+                <th:block th:each="intrebare,iter : ${intrebariChestionar}">
+                    <div class="card border border-dark mt-3">
+                        <div class="card-body">
+                            <h5 th:text="'Intrebarea ' + ${iter.index + 1}" class="card-title"></h5>
+                            <hr>
+                            <p th:text="'ID Intrebare: ' + ${intrebare.intrebareId}" class="card-text" style="font-size: 25px;"></p>
+                            <p th:text="${intrebare.continut}" class="card-text" style="font-size: 25px;"></p>
+                            <hr>
+                            <th:block th:each="varianta,iter2 : ${intrebare.varianteDeRaspuns}">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input"
+                                           type="radio"
+                                           th:name="'varianteIntrebare' + ${intrebare.intrebareId}"
+                                           th:id="'varianta' + ${varianta.variraspunsId}"
+                                           th:value="${varianta.variraspunsId}"
+                                    />
+                                    <label class="custom-control-label"
+                                           th:for="'varianta' + ${varianta.variraspunsId}"
+                                           th:text="${varianta.continut}"></label>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
+                </th:block>
+                <button type="submit" class="btn btn-success my-1 ml-0">Trimite raspunsuri</button>
+            </form>
+        </div>
+    </body>
+</html>

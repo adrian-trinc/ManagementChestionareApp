@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Adauga varianta</title>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h2>Varianta noua</h2>
+            <form method="POST" th:action="@{http://localhost:8081/variantaDeRaspuns}">
+                <label for="continut">Continut:</label>
+                <input type="text" id="continut" name="continut"><br>
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="variantaCorectaGrup1" name="variantaCorecta" value="true">
+                    <label class="custom-control-label" for="variantaCorectaGrup1">Este varianta corecta.</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="variantaCorectaGrup2" name="variantaCorecta" value="false" checked>
+                    <label class="custom-control-label" for="variantaCorectaGrup2">Nu este varianta corecta.</label>
+                </div>
+                <script th:inline="javascript">
+                    var listaDeIntrebariChestionareAdministratorCurentJs = /*[[${listaDeIntrebariChestionareAdministratorCurent}]]*/ [];
+                </script>
+                <script src="/jsfiles/administrator/adaugareVariantaDeRaspuns.js"></script>
+                <label for="chestionarId" class="mdb-main-label">Chestionar</label>
+                <select id="chestionarId" name="chestionarId" class="mdb-select md-form colorful-select dropdown-primary"
+                    th:onchange="initializareSelectIntrebari(listaDeIntrebariChestionareAdministratorCurentJs)">
+                    <th:block th:each="chestionar,iter : ${listaDeChestionareAdministratorCurent}">
+                        <option
+                                th:value="${chestionar.chestionarId}"
+                                th:text="'ID chestionar: ' + ${chestionar.chestionarId} + ' | ' + ${chestionar.descriere}">
+                        </option>
+                    </th:block>
+                </select>
+                <label for="intrebareId" class="mdb-main-label">Intrebare</label>
+                <select id="intrebareId" name="intrebareId" class="mdb-select md-form colorful-select dropdown-primary">
+                    <th:block th:each="intrebare,iter : ${listaDeIntrebariPrimulChestionar}">
+                        <option
+                                th:value="${intrebare.intrebareId}"
+                                th:text="'ID chestionar: ' + ${intrebare.intrebareId} + ' | ' + ${intrebare.continut}">
+                        </option>
+                    </th:block>
+                </select><br>
+                <button type="submit" class="btn btn-primary">Adaugare</button>
+            </form>
+        </div>
+    </body>
+</html>
